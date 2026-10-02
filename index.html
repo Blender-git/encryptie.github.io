@@ -32,9 +32,14 @@
     .lock-body { fill: none; stroke: #00ff88; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .lock-shackle { animation: shacklePulse 3s ease-in-out infinite; transform-origin: 120px 80px; }
     @keyframes shacklePulse { 0%, 100% { stroke-dashoffset: 0; opacity: 1; } 50% { stroke-dashoffset: 20; opacity: 0.5; } }
-    .lock-keyhole { fill: #0a0a0f; stroke: #00ff88; stroke-width: 1.5; }
-    .keyhole-inner { animation: keyholeRotate 6s linear infinite; transform-origin: 120px 110px; }
-    @keyframes keyholeRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .keyhole-outer { fill: #0a0a0f; stroke: #00ff88; stroke-width: 1.5; }
+    .keyhole-iris { fill: #00ff88; transform-origin: 120px 135px; animation: irisPulse 4s ease-in-out infinite; }
+    @keyframes irisPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.3); opacity: 0.4; } }
+    .keyhole-inner { fill: #0a0a0f; transform-origin: 120px 135px; animation: innerRotate 8s ease-in-out infinite; }
+    @keyframes innerRotate { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(15deg); } 75% { transform: rotate(-15deg); } }
+    .key-insert { stroke: #00ff88; stroke-width: 2; stroke-linecap: round; opacity: 0; animation: keyInsert 6s ease-in-out infinite; }
+    @keyframes keyInsert { 0%, 100% { transform: translateX(-60px); opacity: 0; } 15%, 85% { transform: translateX(0); opacity: 1; } }
+    .key-teeth { stroke: #00ff88; stroke-width: 1.5; stroke-linecap: round; opacity: 0; animation: keyInsert 6s ease-in-out infinite; }
     .encryption-bits { stroke: #00ff88; stroke-width: 1.5; stroke-linecap: round; opacity: 0; animation: bitsReveal 2s ease-in-out infinite; }
     .encryption-bits:nth-child(1) { animation-delay: 0s; } .encryption-bits:nth-child(2) { animation-delay: 0.4s; } .encryption-bits:nth-child(3) { animation-delay: 0.8s; }
     @keyframes bitsReveal { 0%, 100% { opacity: 0; stroke-dashoffset: 40; } 50% { opacity: 1; stroke-dashoffset: 0; } }
@@ -71,8 +76,16 @@
       <svg class="lock-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
         <rect class="lock-body" x="60" y="100" width="120" height="100" rx="8" ry="8"/>
         <path class="lock-body lock-shackle" d="M90 100 V60 a30 30 0 0 1 60 0 v40" stroke-dasharray="160" stroke-dashoffset="0"/>
-        <circle class="lock-keyhole" cx="120" cy="135" r="18"/>
-        <path class="lock-keyhole keyhole-inner" d="M120 122 V135 a6 6 0 0 1 -12 0 V122" fill="none"/>
+        <!-- Keyhole outer ring -->
+        <circle class="keyhole-outer" cx="120" cy="135" r="22"/>
+        <!-- Iris/aperture blades (simulated with scaling circle) -->
+        <circle class="keyhole-iris" cx="120" cy="135" r="16"/>
+        <!-- Inner rotating core -->
+        <path class="keyhole-inner" d="M120 122 V135 a6 6 0 0 1 -12 0 V122 M120 135 a6 6 0 1 1 0 -12 6 6 0 0 1 0 12" fill="none" stroke="#00ff88" stroke-width="2"/>
+        <!-- Key inserting animation -->
+        <path class="key-insert" d="M60 135 L100 135" stroke-dasharray="40" stroke-dashoffset="40"/>
+        <path class="key-teeth" d="M90 135 L90 130 M95 135 L95 128 M100 135 L100 132" stroke-dasharray="20" stroke-dashoffset="20"/>
+        <!-- Encryption bits flying around -->
         <line class="encryption-bits" x1="35" y1="80" x2="55" y2="65" stroke-dasharray="30" stroke-dashoffset="30"/>
         <line class="encryption-bits" x1="205" y1="80" x2="185" y2="65" stroke-dasharray="30" stroke-dashoffset="30"/>
         <line class="encryption-bits" x1="35" y1="180" x2="55" y2="195" stroke-dasharray="30" stroke-dashoffset="30"/>
