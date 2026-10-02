@@ -12,26 +12,58 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+      background: linear-gradient(135deg, #050508 0%, #0a0a12 50%, #050508 100%);
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
       color: #e8e8e8;
       overflow: hidden;
       position: relative;
     }
-    .binary-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; font-size: 14px; line-height: 1.5; opacity: 0.15; }
-    .binary-column { position: absolute; top: -100%; white-space: nowrap; animation: fall linear infinite; color: #00ff88; text-shadow: 0 0 8px #00ff88; }
-    @keyframes fall { to { transform: translateY(200vh); } }
-    .hex-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.03; background-image: linear-gradient(90deg, transparent 50%, rgba(0,255,136,0.1) 50%), linear-gradient(transparent 50%, rgba(0,255,136,0.1) 50%); background-size: 40px 40px; animation: hexShift 30s linear infinite; }
-    @keyframes hexShift { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
-    .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; opacity: 0.4; background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(0,0,0,0.1) 1px, rgba(0,0,0,0.1) 2px); animation: scanlineMove 8s linear infinite; }
+    /* Vertical stroke rain - falling lines */
+    .stroke-rain {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.25;
+    }
+    .stroke {
+      position: absolute; top: -100px; width: 1px;
+      background: linear-gradient(180deg, transparent, #00ff88, #00ccff, transparent);
+      animation: strokeFall linear infinite;
+      filter: drop-shadow(0 0 4px #00ff88);
+    }
+    @keyframes strokeFall {
+      to { transform: translateY(calc(100vh + 200px)); opacity: 0; }
+    }
+    /* Hex grid overlay */
+    .hex-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1; opacity: 0.06;
+      background-image: 
+        linear-gradient(90deg, transparent 50%, rgba(0,255,136,0.15) 50%),
+        linear-gradient(transparent 50%, rgba(0,255,136,0.15) 50%);
+      background-size: 60px 60px;
+      animation: hexShift 40s linear infinite;
+    }
+    @keyframes hexShift { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
+    /* Scanlines */
+    .scanlines {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 2; opacity: 0.35;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(0,0,0,0.15) 1px, rgba(0,0,0,0.15) 2px);
+      animation: scanlineMove 6s linear infinite;
+    }
     @keyframes scanlineMove { 0% { background-position-y: 0; } 100% { background-position-y: 4px; } }
+    /* Subtle vignette */
+    .vignette {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 3;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+    }
     .content { position: relative; z-index: 10; text-align: center; padding: 2rem; max-width: 700px; }
-    .lock-container { width: 140px; height: 140px; margin: 0 auto 2rem; }
-    .lock-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.4)); }
-    .lock-body { fill: none; stroke: #00ff88; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .keyhole-outer { fill: #0a0a0f; stroke: #00ff88; stroke-width: 1.5; }
-    .keyhole-inner { fill: #0a0a0f; stroke: #00ff88; stroke-width: 1.5; }
-    .encryption-bits { stroke: #00ff88; stroke-width: 1.5; stroke-linecap: round; opacity: 0; animation: bitsReveal 2s ease-in-out infinite; }
+    .lock-container { width: 160px; height: 160px; margin: 0 auto 2rem; }
+    .lock-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 24px rgba(0, 255, 136, 0.5)); }
+    .lock-body { fill: none; stroke: #00ff88; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .keyhole-outer { fill: #050508; stroke: #00ff88; stroke-width: 2; }
+    .keyhole-inner { fill: #050508; stroke: #00ff88; stroke-width: 2; }
+    .encryption-bits { stroke: #00ff88; stroke-width: 1.5; stroke-linecap: round; opacity: 0; animation: bitsReveal 2.5s ease-in-out infinite; }
     .encryption-bits:nth-child(1) { animation-delay: 0s; } .encryption-bits:nth-child(2) { animation-delay: 0.4s; } .encryption-bits:nth-child(3) { animation-delay: 0.8s; }
     @keyframes bitsReveal { 0%, 100% { opacity: 0; stroke-dashoffset: 40; } 50% { opacity: 1; stroke-dashoffset: 0; } }
     h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(135deg, #00ff88 0%, #00ccff 50%, #00ff88 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 100%; animation: gradientFlow 4s ease infinite; margin-bottom: 0.5rem; }
@@ -47,7 +79,7 @@
     .stage-status { width: 20px; height: 20px; border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; position: relative; transition: all 0.3s; }
     .crypto-stage.active .stage-status { border-color: #00ff88; animation: statusPulse 1.5s ease-in-out infinite; }
     .crypto-stage.completed .stage-status { border-color: #00ff88; background: #00ff88; }
-    .crypto-stage.completed .stage-status::after { content: ''; position: absolute; top: 3px; left: 6px; width: 4px; height: 8px; border: solid #0a0a0f; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    .crypto-stage.completed .stage-status::after { content: ''; position: absolute; top: 3px; left: 6px; width: 4px; height: 8px; border: solid #050508; border-width: 0 2px 2px 0; transform: rotate(45deg); }
     @keyframes statusPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } }
     .footer-text { font-size: 0.75rem; color: #4a4a5a; letter-spacing: 0.05em; text-transform: uppercase; animation: fadeInUp 1s ease-out 0.6s both; }
     .footer-text a { color: #00ff88; text-decoration: none; transition: color 0.3s; } .footer-text a:hover { color: #00ccff; }
@@ -59,21 +91,27 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="binary-rain" id="binaryRain"></div>
+  <div class="stroke-rain" id="strokeRain"></div>
   <div class="hex-overlay"></div>
   <div class="scanlines"></div>
+  <div class="vignette"></div>
   <main class="content">
     <div class="lock-container">
-      <svg class="lock-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-        <rect class="lock-body" x="60" y="100" width="120" height="100" rx="8" ry="8"/>
-        <path class="lock-body" d="M90 100 V60 a30 30 0 0 1 60 0 v40"/>
-        <circle class="keyhole-outer" cx="120" cy="135" r="22"/>
-        <path class="keyhole-inner" d="M120 122 V135 a6 6 0 0 1 -12 0 V122 M120 135 a6 6 0 1 1 0 -12 6 6 0 0 1 0 12" fill="none" stroke="#00ff88" stroke-width="2"/>
-        <line class="encryption-bits" x1="35" y1="80" x2="55" y2="65" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <line class="encryption-bits" x1="205" y1="80" x2="185" y2="65" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <line class="encryption-bits" x1="35" y1="180" x2="55" y2="195" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <line class="encryption-bits" x1="205" y1="180" x2="185" y2="195" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <text x="120" y="210" text-anchor="middle" fill="#00ff88" font-size="10" font-family="monospace" opacity="0.6">AES-256 • ChaCha20 • RSA-4096</text>
+      <svg class="lock-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lock body - centered at 100,100 -->
+        <rect class="lock-body" x="40" y="80" width="120" height="100" rx="10" ry="10"/>
+        <!-- Shackle - centered on top of body -->
+        <path class="lock-body" d="M70 80 V40 a30 30 0 0 1 60 0 v40"/>
+        <!-- Keyhole outer - centered horizontally, vertically in body -->
+        <circle class="keyhole-outer" cx="100" cy="130" r="20"/>
+        <!-- Keyhole inner - classic keyhole shape, centered -->
+        <path class="keyhole-inner" d="M100 115 V130 a8 8 0 0 1 -16 0 V115 M100 130 a8 8 0 1 1 0 -16 8 8 0 0 1 0 16" fill="none" stroke="#00ff88" stroke-width="2.5"/>
+        <!-- Encryption bits around lock -->
+        <line class="encryption-bits" x1="20" y1="60" x2="38" y2="45" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="180" y1="60" x2="162" y2="45" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="20" y1="160" x2="38" y2="175" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="180" y1="160" x2="162" y2="175" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <text x="100" y="195" text-anchor="middle" fill="#00ff88" font-size="9" font-family="monospace" opacity="0.55">AES-256 • ChaCha20 • RSA-4096</text>
       </svg>
     </div>
     <h1>encryptie</h1>
@@ -88,13 +126,32 @@
     <p class="footer-text"><a href="https://github.com/Blender-git/encryptie.github.io" target="_blank" rel="noopener">repository</a> • encryptie.github.io • CVO Volt</p>
   </main>
   <script>
-    const binaryRain = document.getElementById('binaryRain'); const columnCount = 40; const chars = '01';
-    for (let i = 0; i < columnCount; i++) { const col = document.createElement('div'); col.className = 'binary-column'; col.style.left = (i / columnCount * 100) + '%'; col.style.animationDuration = (15 + Math.random() * 10) + 's'; col.style.animationDelay = Math.random() * 15 + 's'; col.style.fontSize = (12 + Math.random() * 8) + 'px'; col.style.opacity = 0.08 + Math.random() * 0.12; let binaryStr = ''; const length = 50 + Math.floor(Math.random() * 30); for (let j = 0; j < length; j++) { binaryStr += chars[Math.floor(Math.random() * 2)]; if (j % 8 === 7) binaryStr += ' '; } col.textContent = binaryStr; binaryRain.appendChild(col); }
+    const strokeRain = document.getElementById('strokeRain');
+    const strokeCount = 35;
+    for (let i = 0; i < strokeCount; i++) {
+      const s = document.createElement('div');
+      s.className = 'stroke';
+      s.style.left = (i / strokeCount * 100) + (Math.random() * 2 - 1) + '%';
+      s.style.height = (40 + Math.random() * 80) + 'px';
+      s.style.animationDuration = (8 + Math.random() * 6) + 's';
+      s.style.animationDelay = Math.random() * 10 + 's';
+      s.style.opacity = 0.3 + Math.random() * 0.5;
+      strokeRain.appendChild(s);
+    }
     const stages = document.querySelectorAll('.crypto-stage'); let currentStage = 0;
-    function animateStages() { stages.forEach((stage, i) => { stage.classList.remove('active', 'completed'); if (i < currentStage) stage.classList.add('completed'); else if (i === currentStage) stage.classList.add('active'); }); currentStage = (currentStage + 1) % (stages.length + 1); if (currentStage === stages.length) { setTimeout(() => { currentStage = 0; }, 2000); } }
+    function animateStages() {
+      stages.forEach((stage, i) => { stage.classList.remove('active', 'completed');
+        if (i < currentStage) stage.classList.add('completed');
+        else if (i === currentStage) stage.classList.add('active');
+      });
+      currentStage = (currentStage + 1) % (stages.length + 1);
+      if (currentStage === stages.length) { setTimeout(() => { currentStage = 0; }, 2000); }
+    }
     animateStages(); setInterval(animateStages, 3000);
     const title = document.querySelector('h1'); const originalText = 'encryptie';
-    setInterval(() => { if (Math.random() < 0.1) { let glitched = ''; for (let c of originalText) { glitched += Math.random() < 0.1 ? String.fromCharCode(97 + Math.floor(Math.random() * 26)) : c; } title.textContent = glitched; setTimeout(() => title.textContent = originalText, 100); } }, 2000);
+    setInterval(() => { if (Math.random() < 0.1) { let glitched = '';
+      for (let c of originalText) { glitched += Math.random() < 0.1 ? String.fromCharCode(97 + Math.floor(Math.random() * 26)) : c; }
+      title.textContent = glitched; setTimeout(() => title.textContent = originalText, 100); } }, 2000);
   </script>
 </body>
 </html>
