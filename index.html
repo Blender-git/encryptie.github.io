@@ -12,267 +12,93 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      color: #e8e8f0;
+      background: linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      color: #e8e8e8;
       overflow: hidden;
       position: relative;
     }
-
-    /* Animated background particles */
-    .particles {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .particle {
-      position: absolute;
-      width: 4px; height: 4px;
-      background: #00d4ff;
-      border-radius: 50%;
-      opacity: 0;
-      animation: floatUp 8s infinite ease-in;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0); opacity: 0; }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.4; }
-      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-    }
-
-    /* Grid overlay animation */
-    .grid-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image: 
-        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      animation: gridMove 20s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-    @keyframes gridMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 50px 50px; }
-    }
-
-    .content {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      padding: 2rem;
-      max-width: 600px;
-    }
-
-    .construct-icon {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 2rem;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      50% { transform: scale(1.05) rotate(2deg); }
-    }
-
-    .gear {
-      animation: spin 4s linear infinite;
-      transform-origin: center;
-    }
-    .gear.reverse { animation-direction: reverse; animation-duration: 3s; }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    h1 {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      font-weight: 700;
-      background: linear-gradient(135deg, #00d4ff 0%, #7c4dff 50%, #ff2d95 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-      animation: textShimmer 3s ease-in-out infinite;
-    }
-    @keyframes textShimmer {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.3); }
-    }
-
-    .subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      color: #9aa0b8;
-      margin-bottom: 2.5rem;
-      font-weight: 400;
-      animation: fadeInUp 1s ease-out 0.3s both;
-    }
-
-    .progress-container {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto 2rem;
-      animation: fadeInUp 1s ease-out 0.5s both;
-    }
-    .progress-bar {
-      height: 8px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #00d4ff, #7c4dff, #ff2d95);
-      background-size: 200% 100%;
-      border-radius: 4px;
-      animation: progressLoad 4s ease-in-out infinite, gradientShift 2s linear infinite;
-    }
-    @keyframes progressLoad {
-      0% { width: 0%; }
-      50% { width: 100%; }
-      100% { width: 0%; }
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
-    }
-    .progress-text {
-      margin-top: 0.5rem;
-      font-size: 0.875rem;
-      color: #6c728a;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .status-items {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-      animation: fadeInUp 1s ease-out 0.7s both;
-    }
-    .status-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(0, 212, 255, 0.2);
-      border-radius: 50px;
-      font-size: 0.875rem;
-      color: #b0b8d0;
-      transition: all 0.3s ease;
-    }
-    .status-item:hover {
-      border-color: #00d4ff;
-      background: rgba(0, 212, 255, 0.1);
-      transform: translateY(-2px);
-    }
-    .status-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #00d4ff;
-      animation: blink 1.5s ease-in-out infinite;
-    }
-    .status-dot:nth-child(1) { animation-delay: 0s; }
-    .status-dot:nth-child(2) { animation-delay: 0.3s; }
-    .status-dot:nth-child(3) { animation-delay: 0.6s; }
-    @keyframes blink {
-      0%, 100% { opacity: 1; box-shadow: 0 0 8px #00d4ff; }
-      50% { opacity: 0.3; box-shadow: none; }
-    }
-
-    .footer-text {
-      font-size: 0.875rem;
-      color: #5a5f7a;
-      animation: fadeInUp 1s ease-out 1s both;
-    }
-    .footer-text a {
-      color: #00d4ff;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .footer-text a:hover { color: #ff2d95; }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+    .binary-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; font-size: 14px; line-height: 1.5; opacity: 0.15; }
+    .binary-column { position: absolute; top: -100%; white-space: nowrap; animation: fall linear infinite; color: #00ff88; text-shadow: 0 0 8px #00ff88; }
+    @keyframes fall { to { transform: translateY(200vh); } }
+    .hex-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.03; background-image: linear-gradient(90deg, transparent 50%, rgba(0,255,136,0.1) 50%), linear-gradient(transparent 50%, rgba(0,255,136,0.1) 50%); background-size: 40px 40px; animation: hexShift 30s linear infinite; }
+    @keyframes hexShift { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+    .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; opacity: 0.4; background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(0,0,0,0.1) 1px, rgba(0,0,0,0.1) 2px); animation: scanlineMove 8s linear infinite; }
+    @keyframes scanlineMove { 0% { background-position-y: 0; } 100% { background-position-y: 4px; } }
+    .content { position: relative; z-index: 10; text-align: center; padding: 2rem; max-width: 700px; }
+    .lock-container { width: 140px; height: 140px; margin: 0 auto 2rem; position: relative; animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .lock-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.4)); }
+    .lock-body { fill: none; stroke: #00ff88; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .lock-shackle { animation: shacklePulse 3s ease-in-out infinite; transform-origin: 120px 80px; }
+    @keyframes shacklePulse { 0%, 100% { stroke-dashoffset: 0; opacity: 1; } 50% { stroke-dashoffset: 20; opacity: 0.5; } }
+    .lock-keyhole { fill: #0a0a0f; stroke: #00ff88; stroke-width: 1.5; }
+    .keyhole-inner { animation: keyholeRotate 6s linear infinite; transform-origin: 120px 110px; }
+    @keyframes keyholeRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .encryption-bits { stroke: #00ff88; stroke-width: 1.5; stroke-linecap: round; opacity: 0; animation: bitsReveal 2s ease-in-out infinite; }
+    .encryption-bits:nth-child(1) { animation-delay: 0s; } .encryption-bits:nth-child(2) { animation-delay: 0.4s; } .encryption-bits:nth-child(3) { animation-delay: 0.8s; }
+    @keyframes bitsReveal { 0%, 100% { opacity: 0; stroke-dashoffset: 40; } 50% { opacity: 1; stroke-dashoffset: 0; } }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(135deg, #00ff88 0%, #00ccff 50%, #00ff88 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 100%; animation: gradientFlow 4s ease infinite; margin-bottom: 0.5rem; }
+    @keyframes gradientFlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 200% 50%; } }
+    h1::after { content: '_'; animation: cursorBlink 1s step-end infinite; margin-left: 4px; opacity: 0.7; }
+    @keyframes cursorBlink { 0%, 50% { opacity: 0.7; } 51%, 100% { opacity: 0; } }
+    .subtitle { font-size: clamp(0.875rem, 2vw, 1rem); color: #6a6a7a; margin-bottom: 2.5rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; }
+    .crypto-progress { width: 100%; max-width: 500px; margin: 0 auto 2.5rem; animation: fadeInUp 1s ease-out 0.3s both; }
+    .crypto-stage { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.15); border-radius: 4px; margin-bottom: 0.5rem; font-size: 0.8rem; transition: all 0.3s ease; }
+    .crypto-stage.active { border-color: #00ff88; background: rgba(0, 255, 136, 0.12); box-shadow: 0 0 20px rgba(0, 255, 136, 0.15); }
+    .crypto-stage.completed { border-color: #00ff88; background: rgba(0, 255, 136, 0.08); opacity: 0.7; }
+    .stage-name { color: #00ff88; font-weight: 600; } .stage-detail { color: #888; font-family: inherit; }
+    .stage-status { width: 20px; height: 20px; border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; position: relative; transition: all 0.3s; }
+    .crypto-stage.active .stage-status { border-color: #00ff88; animation: statusPulse 1.5s ease-in-out infinite; }
+    .crypto-stage.completed .stage-status { border-color: #00ff88; background: #00ff88; }
+    .crypto-stage.completed .stage-status::after { content: ''; position: absolute; top: 3px; left: 6px; width: 4px; height: 8px; border: solid #0a0a0f; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    @keyframes statusPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } }
+    .footer-text { font-size: 0.75rem; color: #4a4a5a; letter-spacing: 0.05em; text-transform: uppercase; animation: fadeInUp 1s ease-out 0.6s both; }
+    .footer-text a { color: #00ff88; text-decoration: none; transition: color 0.3s; } .footer-text a:hover { color: #00ccff; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="particles" id="particles"></div>
-  <div class="grid-overlay"></div>
-
+  <div class="binary-rain" id="binaryRain"></div>
+  <div class="hex-overlay"></div>
+  <div class="scanlines"></div>
   <main class="content">
-    <svg class="construct-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #00d4ff;">
-      <circle class="gear" cx="12" cy="12" r="10"/>
-      <path class="gear reverse" d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-      <circle cx="12" cy="12" r="4" stroke-width="2"/>
-    </svg>
-
-    <h1>Onder Constructie</h1>
-    <p class="subtitle">Deze pagina wordt opgebouwd — even geduld a.u.b.</p>
-
-    <div class="progress-container">
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-      <div class="progress-text" id="progressText">Initialiseren...</div>
+    <div class="lock-container">
+      <svg class="lock-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <rect class="lock-body" x="60" y="100" width="120" height="100" rx="8" ry="8"/>
+        <path class="lock-body lock-shackle" d="M90 100 V60 a30 30 0 0 1 60 0 v40" stroke-dasharray="160" stroke-dashoffset="0"/>
+        <circle class="lock-keyhole" cx="120" cy="135" r="18"/>
+        <path class="lock-keyhole keyhole-inner" d="M120 122 V135 a6 6 0 0 1 -12 0 V122" fill="none"/>
+        <line class="encryption-bits" x1="35" y1="80" x2="55" y2="65" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="205" y1="80" x2="185" y2="65" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="35" y1="180" x2="55" y2="195" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="205" y1="180" x2="185" y2="195" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <text x="120" y="210" text-anchor="middle" fill="#00ff88" font-size="10" font-family="monospace" opacity="0.6">AES-256 • ChaCha20 • RSA-4096</text>
+      </svg>
     </div>
-
-    <div class="status-items">
-      <div class="status-item"><span class="status-dot"></span>Repository gekoppeld</div>
-      <div class="status-item"><span class="status-dot"></span>GitHub Pages actief</div>
-      <div class="status-item"><span class="status-dot"></span>Content wordt geladen</div>
+    <h1>encryptie</h1>
+    <p class="subtitle">onder constructie — encryptiemodules worden geladen</p>
+    <div class="crypto-progress" id="cryptoProgress">
+      <div class="crypto-stage" data-stage="0"><span class="stage-name">KEY_GENERATION</span><span class="stage-detail">Entropie verzamelen...</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="1"><span class="stage-name">CIPHER_INIT</span><span class="stage-detail">S-boxen initialiseren...</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="2"><span class="stage-name">BLOCK_MODE</span><span class="stage-detail">GCM / CCM configureren...</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="3"><span class="stage-name">INTEGRITY</span><span class="stage-detail">HMAC-SHA256 verifiëren...</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="4"><span class="stage-name">DEPLOYMENT</span><span class="stage-detail">Beveiligde kanaal openen...</span><div class="stage-status"></div></div>
     </div>
-
-    <p class="footer-text">
-      <a href="https://github.com/Blender-git/encryptie.github.io" target="_blank" rel="noopener">Bekijk repository</a> •
-      encryptie.github.io • CVO Volt opdracht
-    </p>
+    <p class="footer-text"><a href="https://github.com/Blender-git/encryptie.github.io" target="_blank" rel="noopener">repository</a> • encryptie.github.io • CVO Volt</p>
   </main>
-
   <script>
-    // Particle system
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = 30;
-    for (let i = 0; i < particleCount; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.animationDelay = Math.random() * 8 + 's';
-      p.style.animationDuration = (6 + Math.random() * 4) + 's';
-      const size = 2 + Math.random() * 4;
-      p.style.width = p.style.height = size + 'px';
-      p.style.background = Math.random() > 0.5 ? '#00d4ff' : '#7c4dff';
-      particlesContainer.appendChild(p);
-    }
-
-    // Progress text rotation
-    const texts = ['Initialiseren...', 'Bestanden controleren...', 'Assets laden...', 'Bijna klaar...', 'Klaar voor launch!'];
-    let idx = 0;
-    const progressText = document.getElementById('progressText');
-    setInterval(() => {
-      idx = (idx + 1) % texts.length;
-      progressText.style.opacity = 0;
-      setTimeout(() => {
-        progressText.textContent = texts[idx];
-        progressText.style.opacity = 1;
-      }, 300);
-    }, 2000);
-    progressText.style.transition = 'opacity 0.3s ease';
+    const binaryRain = document.getElementById('binaryRain'); const columnCount = 40; const chars = '01';
+    for (let i = 0; i < columnCount; i++) { const col = document.createElement('div'); col.className = 'binary-column'; col.style.left = (i / columnCount * 100) + '%'; col.style.animationDuration = (15 + Math.random() * 10) + 's'; col.style.animationDelay = Math.random() * 15 + 's'; col.style.fontSize = (12 + Math.random() * 8) + 'px'; col.style.opacity = 0.08 + Math.random() * 0.12; let binaryStr = ''; const length = 50 + Math.floor(Math.random() * 30); for (let j = 0; j < length; j++) { binaryStr += chars[Math.floor(Math.random() * 2)]; if (j % 8 === 7) binaryStr += ' '; } col.textContent = binaryStr; binaryRain.appendChild(col); }
+    const stages = document.querySelectorAll('.crypto-stage'); let currentStage = 0;
+    function animateStages() { stages.forEach((stage, i) => { stage.classList.remove('active', 'completed'); if (i < currentStage) stage.classList.add('completed'); else if (i === currentStage) stage.classList.add('active'); }); currentStage = (currentStage + 1) % (stages.length + 1); if (currentStage === stages.length) { setTimeout(() => { currentStage = 0; }, 2000); } }
+    animateStages(); setInterval(animateStages, 3000);
+    const title = document.querySelector('h1'); const originalText = 'encryptie';
+    setInterval(() => { if (Math.random() < 0.1) { let glitched = ''; for (let c of originalText) { glitched += Math.random() < 0.1 ? String.fromCharCode(97 + Math.floor(Math.random() * 26)) : c; } title.textContent = glitched; setTimeout(() => title.textContent = originalText, 100); } }, 2000);
   </script>
 </body>
 </html>
