@@ -12,77 +12,78 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #050508 0%, #0a0a12 50%, #050508 100%);
+      background: #000;
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      color: #e8e8e8;
+      color: #00ff41;
       overflow: hidden;
       position: relative;
     }
-    /* Vertical stroke rain - falling lines */
-    .stroke-rain {
+    /* Green phosphor CRT feel */
+    body::before {
+      content: '';
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 0; opacity: 0.25;
+      pointer-events: none; z-index: 100;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
+      animation: scanlineMove 8s linear infinite;
     }
-    .stroke {
-      position: absolute; top: -100px; width: 1px;
-      background: linear-gradient(180deg, transparent, #00ff88, #00ccff, transparent);
-      animation: strokeFall linear infinite;
-      filter: drop-shadow(0 0 4px #00ff88);
-    }
-    @keyframes strokeFall {
-      to { transform: translateY(calc(100vh + 200px)); opacity: 0; }
-    }
-    /* Hex grid overlay */
-    .hex-overlay {
+    body::after {
+      content: '';
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 1; opacity: 0.06;
+      pointer-events: none; z-index: 101;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+    }
+    /* Falling binary columns - classic matrix style */
+    .binary-rain {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.12;
+      font-size: 16px; line-height: 1.4; color: #00ff41;
+      text-shadow: 0 0 8px #00ff41, 0 0 16px #00ff41;
+    }
+    .binary-column {
+      position: absolute; top: -200%; white-space: nowrap;
+      animation: fall linear infinite;
+      font-weight: 700;
+    }
+    @keyframes fall { to { transform: translateY(300vh); } }
+    /* Subtle grid */
+    .grid-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1; opacity: 0.04;
       background-image: 
-        linear-gradient(90deg, transparent 50%, rgba(0,255,136,0.15) 50%),
-        linear-gradient(transparent 50%, rgba(0,255,136,0.15) 50%);
-      background-size: 60px 60px;
-      animation: hexShift 40s linear infinite;
+        linear-gradient(90deg, transparent 50%, rgba(0,255,65,0.1) 50%),
+        linear-gradient(transparent 50%, rgba(0,255,65,0.1) 50%);
+      background-size: 80px 80px;
+      animation: gridShift 60s linear infinite;
     }
-    @keyframes hexShift { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
-    /* Scanlines */
-    .scanlines {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 2; opacity: 0.35;
-      background: repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(0,0,0,0.15) 1px, rgba(0,0,0,0.15) 2px);
-      animation: scanlineMove 6s linear infinite;
-    }
-    @keyframes scanlineMove { 0% { background-position-y: 0; } 100% { background-position-y: 4px; } }
-    /* Subtle vignette */
-    .vignette {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 3;
-      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
-    }
+    @keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 80px 80px; } }
     .content { position: relative; z-index: 10; text-align: center; padding: 2rem; max-width: 700px; }
-    .lock-container { width: 160px; height: 160px; margin: 0 auto 2rem; }
-    .lock-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 24px rgba(0, 255, 136, 0.5)); }
-    .lock-body { fill: none; stroke: #00ff88; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-    .keyhole-outer { fill: #050508; stroke: #00ff88; stroke-width: 2; }
-    .keyhole-inner { fill: #050508; stroke: #00ff88; stroke-width: 2; }
-    .encryption-bits { stroke: #00ff88; stroke-width: 1.5; stroke-linecap: round; opacity: 0; animation: bitsReveal 2.5s ease-in-out infinite; }
-    .encryption-bits:nth-child(1) { animation-delay: 0s; } .encryption-bits:nth-child(2) { animation-delay: 0.4s; } .encryption-bits:nth-child(3) { animation-delay: 0.8s; }
-    @keyframes bitsReveal { 0%, 100% { opacity: 0; stroke-dashoffset: 40; } 50% { opacity: 1; stroke-dashoffset: 0; } }
-    h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: linear-gradient(135deg, #00ff88 0%, #00ccff 50%, #00ff88 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 100%; animation: gradientFlow 4s ease infinite; margin-bottom: 0.5rem; }
-    @keyframes gradientFlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 200% 50%; } }
-    h1::after { content: '_'; animation: cursorBlink 1s step-end infinite; margin-left: 4px; opacity: 0.7; }
-    @keyframes cursorBlink { 0%, 50% { opacity: 0.7; } 51%, 100% { opacity: 0; } }
-    .subtitle { font-size: clamp(0.875rem, 2vw, 1rem); color: #6a6a7a; margin-bottom: 2.5rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; }
+    .lock-container { width: 180px; height: 180px; margin: 0 auto 2rem; }
+    .lock-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 16px #00ff41); }
+    .lock-body { fill: none; stroke: #00ff41; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .lock-shackle { fill: none; stroke: #00ff41; stroke-width: 3; stroke-linecap: round; }
+    .keyhole-outer { fill: #000; stroke: #00ff41; stroke-width: 2.5; }
+    .keyhole-inner { fill: #000; stroke: #00ff41; stroke-width: 2.5; }
+    .encryption-bits { stroke: #00ff41; stroke-width: 2; stroke-linecap: round; opacity: 0; animation: bitsReveal 3s ease-in-out infinite; }
+    .encryption-bits:nth-child(1) { animation-delay: 0s; } .encryption-bits:nth-child(2) { animation-delay: 0.5s; } .encryption-bits:nth-child(3) { animation-delay: 1s; }
+    @keyframes bitsReveal { 0%, 100% { opacity: 0; stroke-dashoffset: 50; } 50% { opacity: 1; stroke-dashoffset: 0; } }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #00ff41; text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41; margin-bottom: 0.25rem; }
+    h1::after { content: '_'; animation: cursorBlink 1s step-end infinite; margin-left: 6px; color: #00ff41; }
+    @keyframes cursorBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+    .subtitle { font-size: clamp(0.8rem, 1.8vw, 0.95rem); color: #00cc33; margin-bottom: 2rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; text-shadow: 0 0 8px #00cc33; }
     .crypto-progress { width: 100%; max-width: 500px; margin: 0 auto 2.5rem; animation: fadeInUp 1s ease-out 0.3s both; }
-    .crypto-stage { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.15); border-radius: 4px; margin-bottom: 0.5rem; font-size: 0.8rem; transition: all 0.3s ease; }
-    .crypto-stage.active { border-color: #00ff88; background: rgba(0, 255, 136, 0.12); box-shadow: 0 0 20px rgba(0, 255, 136, 0.15); }
-    .crypto-stage.completed { border-color: #00ff88; background: rgba(0, 255, 136, 0.08); opacity: 0.7; }
-    .stage-name { color: #00ff88; font-weight: 600; } .stage-detail { color: #888; font-family: inherit; }
-    .stage-status { width: 20px; height: 20px; border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; position: relative; transition: all 0.3s; }
-    .crypto-stage.active .stage-status { border-color: #00ff88; animation: statusPulse 1.5s ease-in-out infinite; }
-    .crypto-stage.completed .stage-status { border-color: #00ff88; background: #00ff88; }
-    .crypto-stage.completed .stage-status::after { content: ''; position: absolute; top: 3px; left: 6px; width: 4px; height: 8px; border: solid #050508; border-width: 0 2px 2px 0; transform: rotate(45deg); }
-    @keyframes statusPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } }
-    .footer-text { font-size: 0.75rem; color: #4a4a5a; letter-spacing: 0.05em; text-transform: uppercase; animation: fadeInUp 1s ease-out 0.6s both; }
-    .footer-text a { color: #00ff88; text-decoration: none; transition: color 0.3s; } .footer-text a:hover { color: #00ccff; }
+    .crypto-stage { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(0, 255, 65, 0.05); border: 1px solid rgba(0, 255, 65, 0.2); border-radius: 4px; margin-bottom: 0.5rem; font-size: 0.75rem; transition: all 0.3s ease; }
+    .crypto-stage.active { border-color: #00ff41; background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 16px rgba(0, 255, 65, 0.2); }
+    .crypto-stage.completed { border-color: #00ff41; background: rgba(0, 255, 65, 0.07); opacity: 0.6; }
+    .stage-name { color: #00ff41; font-weight: 700; }
+    .stage-detail { color: #008811; font-family: inherit; }
+    .stage-status { width: 18px; height: 18px; border: 2px solid rgba(0, 255, 65, 0.3); border-radius: 50%; position: relative; transition: all 0.3s; }
+    .crypto-stage.active .stage-status { border-color: #00ff41; animation: statusPulse 1.5s ease-in-out infinite; }
+    .crypto-stage.completed .stage-status { border-color: #00ff41; background: #00ff41; }
+    .crypto-stage.completed .stage-status::after { content: ''; position: absolute; top: 2px; left: 5px; width: 4px; height: 8px; border: solid #000; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    @keyframes statusPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.5); } 50% { box-shadow: 0 0 0 10px rgba(0, 255, 65, 0); } }
+    .footer-text { font-size: 0.7rem; color: #006611; letter-spacing: 0.1em; text-transform: uppercase; animation: fadeInUp 1s ease-out 0.6s both; text-shadow: 0 0 4px #006611; }
+    .footer-text a { color: #00ff41; text-decoration: none; transition: color 0.3s; text-shadow: 0 0 8px #00ff41; }
+    .footer-text a:hover { color: #00ccff; text-shadow: 0 0 8px #00ccff; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   </style>
@@ -91,52 +92,58 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="stroke-rain" id="strokeRain"></div>
-  <div class="hex-overlay"></div>
-  <div class="scanlines"></div>
-  <div class="vignette"></div>
+  <div class="binary-rain" id="binaryRain"></div>
+  <div class="grid-overlay"></div>
   <main class="content">
     <div class="lock-container">
       <svg class="lock-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <!-- Lock body - centered at 100,100 -->
-        <rect class="lock-body" x="40" y="80" width="120" height="100" rx="10" ry="10"/>
-        <!-- Shackle - centered on top of body -->
-        <path class="lock-body" d="M70 80 V40 a30 30 0 0 1 60 0 v40"/>
-        <!-- Keyhole outer - centered horizontally, vertically in body -->
-        <circle class="keyhole-outer" cx="100" cy="130" r="20"/>
-        <!-- Keyhole inner - classic keyhole shape, centered -->
-        <path class="keyhole-inner" d="M100 115 V130 a8 8 0 0 1 -16 0 V115 M100 130 a8 8 0 1 1 0 -16 8 8 0 0 1 0 16" fill="none" stroke="#00ff88" stroke-width="2.5"/>
+        <!-- Lock body: centered rect at (100, 120), w=100, h=80 -->
+        <rect class="lock-body" x="50" y="80" width="100" height="80" rx="8" ry="8"/>
+        <!-- Shackle: centered on top of body, radius 25 -->
+        <path class="lock-shackle" d="M75 80 V35 a25 25 0 0 1 50 0 v45"/>
+        <!-- Keyhole outer: centered at (100, 120) - center of body -->
+        <circle class="keyhole-outer" cx="100" cy="120" r="18"/>
+        <!-- Keyhole inner: classic keyhole shape centered at (100, 120) -->
+        <path class="keyhole-inner" d="M100 105 V120 a10 10 0 0 1 -20 0 V105 M100 120 a10 10 0 1 1 0 -20 10 10 0 0 1 0 20" fill="none" stroke="#00ff41" stroke-width="2.5"/>
         <!-- Encryption bits around lock -->
-        <line class="encryption-bits" x1="20" y1="60" x2="38" y2="45" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <line class="encryption-bits" x1="180" y1="60" x2="162" y2="45" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <line class="encryption-bits" x1="20" y1="160" x2="38" y2="175" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <line class="encryption-bits" x1="180" y1="160" x2="162" y2="175" stroke-dasharray="30" stroke-dashoffset="30"/>
-        <text x="100" y="195" text-anchor="middle" fill="#00ff88" font-size="9" font-family="monospace" opacity="0.55">AES-256 • ChaCha20 • RSA-4096</text>
+        <line class="encryption-bits" x1="25" y1="55" x2="42" y2="40" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="175" y1="55" x2="158" y2="40" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="25" y1="160" x2="42" y2="175" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <line class="encryption-bits" x1="175" y1="160" x2="158" y2="175" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <text x="100" y="190" text-anchor="middle" fill="#00ff41" font-size="8" font-family="monospace" opacity="0.5">AES-256  ChaCha20  RSA-4096</text>
       </svg>
     </div>
     <h1>encryptie</h1>
-    <p class="subtitle">onder constructie — encryptiemodules worden geladen</p>
+    <p class="subtitle">onder constructie  encryptiemodules laden</p>
     <div class="crypto-progress" id="cryptoProgress">
-      <div class="crypto-stage" data-stage="0"><span class="stage-name">KEY_GENERATION</span><span class="stage-detail">Entropie verzamelen...</span><div class="stage-status"></div></div>
-      <div class="crypto-stage" data-stage="1"><span class="stage-name">CIPHER_INIT</span><span class="stage-detail">S-boxen initialiseren...</span><div class="stage-status"></div></div>
-      <div class="crypto-stage" data-stage="2"><span class="stage-name">BLOCK_MODE</span><span class="stage-detail">GCM / CCM configureren...</span><div class="stage-status"></div></div>
-      <div class="crypto-stage" data-stage="3"><span class="stage-name">INTEGRITY</span><span class="stage-detail">HMAC-SHA256 verifiëren...</span><div class="stage-status"></div></div>
-      <div class="crypto-stage" data-stage="4"><span class="stage-name">DEPLOYMENT</span><span class="stage-detail">Beveiligde kanaal openen...</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="0"><span class="stage-name">KEY_GENERATION</span><span class="stage-detail">ENTROPIE VERZAMELEN</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="1"><span class="stage-name">CIPHER_INIT</span><span class="stage-detail">S-BOXEN INITIALISEREN</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="2"><span class="stage-name">BLOCK_MODE</span><span class="stage-detail">GCM / CCM CONFIGUREREN</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="3"><span class="stage-name">INTEGRITY</span><span class="stage-detail">HMAC-SHA256 VERIFIEREN</span><div class="stage-status"></div></div>
+      <div class="crypto-stage" data-stage="4"><span class="stage-name">DEPLOYMENT</span><span class="stage-detail">BEVEILIGD KANAAL OPENEN</span><div class="stage-status"></div></div>
     </div>
-    <p class="footer-text"><a href="https://github.com/Blender-git/encryptie.github.io" target="_blank" rel="noopener">repository</a> • encryptie.github.io • CVO Volt</p>
+    <p class="footer-text"><a href="https://github.com/Blender-git/encryptie.github.io" target="_blank" rel="noopener">REPOSITORY</a>  ENCRYPTIE.GITHUB.IO  CVO VOLT</p>
   </main>
   <script>
-    const strokeRain = document.getElementById('strokeRain');
-    const strokeCount = 35;
-    for (let i = 0; i < strokeCount; i++) {
-      const s = document.createElement('div');
-      s.className = 'stroke';
-      s.style.left = (i / strokeCount * 100) + (Math.random() * 2 - 1) + '%';
-      s.style.height = (40 + Math.random() * 80) + 'px';
-      s.style.animationDuration = (8 + Math.random() * 6) + 's';
-      s.style.animationDelay = Math.random() * 10 + 's';
-      s.style.opacity = 0.3 + Math.random() * 0.5;
-      strokeRain.appendChild(s);
+    const binaryRain = document.getElementById('binaryRain');
+    const columnCount = 50;
+    for (let i = 0; i < columnCount; i++) {
+      const col = document.createElement('div');
+      col.className = 'binary-column';
+      col.style.left = (i / columnCount * 100) + '%';
+      col.style.animationDuration = (10 + Math.random() * 15) + 's';
+      col.style.animationDelay = Math.random() * 20 + 's';
+      col.style.fontSize = (13 + Math.random() * 6) + 'px';
+      col.style.opacity = 0.15 + Math.random() * 0.25;
+      // Generate long binary string with spaces every 8 chars
+      let str = '';
+      const len = 80 + Math.floor(Math.random() * 60);
+      for (let j = 0; j < len; j++) {
+        str += Math.random() < 0.5 ? '0' : '1';
+        if (j % 8 === 7) str += ' ';
+      }
+      col.textContent = str;
+      binaryRain.appendChild(col);
     }
     const stages = document.querySelectorAll('.crypto-stage'); let currentStage = 0;
     function animateStages() {
@@ -148,10 +155,11 @@
       if (currentStage === stages.length) { setTimeout(() => { currentStage = 0; }, 2000); }
     }
     animateStages(); setInterval(animateStages, 3000);
+    // Title glitch
     const title = document.querySelector('h1'); const originalText = 'encryptie';
-    setInterval(() => { if (Math.random() < 0.1) { let glitched = '';
-      for (let c of originalText) { glitched += Math.random() < 0.1 ? String.fromCharCode(97 + Math.floor(Math.random() * 26)) : c; }
-      title.textContent = glitched; setTimeout(() => title.textContent = originalText, 100); } }, 2000);
+    setInterval(() => { if (Math.random() < 0.08) { let glitched = '';
+      for (let c of originalText) { glitched += Math.random() < 0.15 ? (Math.random() < 0.5 ? '0' : '1') : c; }
+      title.textContent = glitched; setTimeout(() => title.textContent = originalText, 80); } }, 1500);
   </script>
 </body>
 </html>
