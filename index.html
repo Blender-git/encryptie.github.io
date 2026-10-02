@@ -54,12 +54,6 @@
     }
     @keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 80px 80px; } }
     .content { position: relative; z-index: 10; text-align: center; padding: 2rem; max-width: 700px; }
-    .lock-container { width: 180px; height: 180px; margin: 0 auto 2rem; }
-    .lock-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 16px #00ff41); }
-    .lock-body { fill: none; stroke: #00ff41; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-    .lock-shackle { fill: none; stroke: #00ff41; stroke-width: 3; stroke-linecap: round; }
-    .keyhole-outer { fill: #000; stroke: #00ff41; stroke-width: 2.5; }
-    .keyhole-inner { fill: #000; stroke: #00ff41; stroke-width: 2.5; }
     h1 { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #00ff41; text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41; margin-bottom: 0.25rem; }
     h1::after { content: '_'; animation: cursorBlink 1s step-end infinite; margin-left: 6px; color: #00ff41; }
     @keyframes cursorBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
@@ -89,20 +83,6 @@
   <div class="binary-rain" id="binaryRain"></div>
   <div class="grid-overlay"></div>
   <main class="content">
-    <div class="lock-container">
-      <svg class="lock-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <!-- Lock body: rounded rectangle centered at (100, 115), width 90, height 70 -->
-        <rect class="lock-body" x="55" y="80" width="90" height="70" rx="8" ry="8"/>
-        <!-- Shackle: centered on top of body, extends up -->
-        <path class="lock-shackle" d="M70 80 V30 a25 25 0 0 1 60 0 v50"/>
-        <!-- Keyhole outer circle: centered at (100, 115) -->
-        <circle class="keyhole-outer" cx="100" cy="115" r="16"/>
-        <!-- Keyhole inner: classic keyhole shape centered at (100, 115) -->
-        <path class="keyhole-inner" d="M100 102 V115 a8 8 0 0 1 -16 0 V102 M100 115 a8 8 0 1 1 0 -16 8 8 0 0 1 0 16" fill="none" stroke="#00ff41" stroke-width="2.5"/>
-        <!-- Algorithm labels below lock -->
-        <text x="100" y="165" text-anchor="middle" fill="#00ff41" font-size="8" font-family="monospace" opacity="0.5">AES-256  ChaCha20  RSA-4096</text>
-      </svg>
-    </div>
     <h1>encryptie</h1>
     <p class="subtitle">onder constructie  encryptiemodules laden</p>
     <div class="crypto-progress" id="cryptoProgress">
