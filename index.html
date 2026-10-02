@@ -69,9 +69,6 @@
     .crypto-stage.completed .stage-status { border-color: #00ff41; background: #00ff41; }
     .crypto-stage.completed .stage-status::after { content: ''; position: absolute; top: 2px; left: 5px; width: 4px; height: 8px; border: solid #000; border-width: 0 2px 2px 0; transform: rotate(45deg); }
     @keyframes statusPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.5); } 50% { box-shadow: 0 0 0 10px rgba(0, 255, 65, 0); } }
-    .footer-text { font-size: 0.7rem; color: #006611; letter-spacing: 0.1em; text-transform: uppercase; animation: fadeInUp 1s ease-out 0.6s both; text-shadow: 0 0 4px #006611; }
-    .footer-text a { color: #00ff41; text-decoration: none; transition: color 0.3s; text-shadow: 0 0 8px #00ff41; }
-    .footer-text a:hover { color: #00ccff; text-shadow: 0 0 8px #00ccff; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   </style>
@@ -92,7 +89,6 @@
       <div class="crypto-stage" data-stage="3"><span class="stage-name">INTEGRITY</span><span class="stage-detail">HMAC-SHA256 VERIFIEREN</span><div class="stage-status"></div></div>
       <div class="crypto-stage" data-stage="4"><span class="stage-name">DEPLOYMENT</span><span class="stage-detail">BEVEILIGD KANAAL OPENEN</span><div class="stage-status"></div></div>
     </div>
-    <p class="footer-text"><a href="https://github.com/Blender-git/encryptie.github.io" target="_blank" rel="noopener">REPOSITORY</a>  ENCRYPTIE.GITHUB.IO  CVO VOLT</p>
   </main>
   <script>
     const binaryRain = document.getElementById('binaryRain');
