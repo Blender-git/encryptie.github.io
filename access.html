@@ -17,6 +17,10 @@
       --border-bright: #00ff41;
       --glow: 0 0 8px #00ff41, 0 0 16px #00ff41;
       --glow-strong: 0 0 16px #00ff41, 0 0 32px #00ff41;
+      --line1: #00ff41;
+      --line2: #00ccff;
+      --area: rgba(0, 255, 65, 0.15);
+      --area-border: #00ff41;
     }
     @media (prefers-color-scheme: light) { :root { --bg: #000; } }
     html { scroll-behavior: smooth; }
@@ -66,7 +70,7 @@
     @keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 80px 80px; } }
     .content {
       position: relative; z-index: 10;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 4rem 2rem 6rem;
     }
@@ -195,6 +199,116 @@
       display: inline-block;
       margin-top: 0.25rem;
     }
+    /* Graph Container */
+    .graph-container {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      position: relative;
+    }
+    .graph-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      aspect-ratio: 1;
+    }
+    .graph-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .graph-axes {
+      stroke: var(--fg-muted);
+      stroke-width: 1.5;
+      stroke-dasharray: 4 4;
+    }
+    .graph-grid {
+      stroke: rgba(0, 255, 65, 0.05);
+      stroke-width: 0.5;
+    }
+    .graph-line {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 4px currentColor);
+    }
+    .line-1 { stroke: var(--line1); }
+    .line-2 { stroke: var(--line2); }
+    .area-fill {
+      fill: var(--area);
+      stroke: var(--area-border);
+      stroke-width: 1.5;
+      stroke-dasharray: 6 4;
+      filter: drop-shadow(0 0 8px var(--fg));
+    }
+    .point-marker {
+      fill: var(--fg);
+      stroke: var(--bg);
+      stroke-width: 2;
+      filter: drop-shadow(0 0 6px var(--fg));
+      animation: pointPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pointPulse {
+      0%, 100% { r: 5; opacity: 1; }
+      50% { r: 8; opacity: 0.7; }
+    }
+    .intersection-marker {
+      fill: var(--line2);
+      stroke: var(--bg);
+      stroke-width: 2;
+      filter: drop-shadow(0 0 8px var(--line2));
+      animation: intersectPulse 2s ease-in-out infinite;
+    }
+    @keyframes intersectPulse {
+      0%, 100% { r: 6; opacity: 1; }
+      50% { r: 10; opacity: 0.6; }
+    }
+    .axis-label {
+      font-size: 0.65rem;
+      fill: var(--fg-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .line-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .line-label-1 { fill: var(--line1); }
+    .line-label-2 { fill: var(--line2); }
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .legend-color {
+      width: 20px; height: 3px; border-radius: 2px;
+    }
+    .legend-area {
+      width: 20px; height: 12px; border-radius: 2px;
+      background: var(--area);
+      border: 1px dashed var(--area-border);
+    }
+    .step-text {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--fg-dim);
+    }
+    .step-text .math { color: var(--fg); font-weight: 600; text-shadow: 0 0 4px var(--fg); }
+    .step-text .highlight { color: var(--fg); background: rgba(0,255,65,0.1); padding: 0 0.25rem; border-radius: 2px; }
     .solution-trigger {
       margin-top: 1.5rem;
       padding: 0;
@@ -241,7 +355,7 @@
       border-top: 1px solid var(--border);
     }
     .solution-content.revealed {
-      max-height: 500px;
+      max-height: 800px;
       opacity: 1;
     }
     .solution-step {
@@ -281,13 +395,6 @@
       animation: stepDot 1.5s ease-in-out infinite;
     }
     @keyframes stepDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
-    .step-text {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      color: var(--fg-dim);
-    }
-    .step-text .math { color: var(--fg); font-weight: 600; text-shadow: 0 0 4px var(--fg); }
-    .step-text .highlight { color: var(--fg); background: rgba(0,255,65,0.1); padding: 0 0.25rem; border-radius: 2px; }
     .final-answer {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -342,8 +449,42 @@
         transition-duration: 0.01ms !important;
       }
       .question-card { opacity: 1; transform: none; }
-      .solution-content { max-height: 500px; opacity: 1; }
+      .solution-content { max-height: 800px; opacity: 1; }
+      .graph-line, .area-fill, .point-marker, .intersection-marker {
+        stroke-dashoffset: 0 !important;
+        opacity: 1 !important;
+      }
     }
+    /* Draw animations */
+    .draw-line {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawLine 2s ease-out forwards;
+    }
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+    .draw-area {
+      opacity: 0;
+      animation: drawArea 1.5s ease-out 2s forwards;
+    }
+    @keyframes drawArea {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .draw-points {
+      opacity: 0;
+      transform: scale(0);
+      animation: drawPoints 0.5s ease-out forwards;
+    }
+    @keyframes drawPoints {
+      to { opacity: 1; transform: scale(1); }
+    }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.8s; }
+    .delay-3 { animation-delay: 1.4s; }
+    .delay-4 { animation-delay: 2.2s; }
+    .delay-5 { animation-delay: 2.8s; }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -375,6 +516,135 @@ Bepaal de oppervlakte van dat gebied.
 <span class="option"><C> 18</span>
 <span class="option"><D> 19</span>
       </div>
+
+      <!-- Animated Graph -->
+      <div class="graph-container">
+        <div class="graph-wrapper" id="graphWrapper">
+          <svg class="graph-svg" viewBox="0 0 400 400" id="graphSvg">
+            <!-- Grid -->
+            <g class="graph-grid" id="gridGroup">
+              <!-- Vertical lines -->
+              <line x1="40" y1="40" x2="40" y2="360"/>
+              <line x1="80" y1="40" x2="80" y2="360"/>
+              <line x1="120" y1="40" x2="120" y2="360"/>
+              <line x1="160" y1="40" x2="160" y2="360"/>
+              <line x1="200" y1="40" x2="200" y2="360"/>
+              <line x1="240" y1="40" x2="240" y2="360"/>
+              <line x1="280" y1="40" x2="280" y2="360"/>
+              <line x1="320" y1="40" x2="320" y2="360"/>
+              <line x1="360" y1="40" x2="360" y2="360"/>
+              <!-- Horizontal lines -->
+              <line x1="40" y1="360" x2="360" y2="360"/>
+              <line x1="40" y1="320" x2="360" y2="320"/>
+              <line x1="40" y1="280" x2="360" y2="280"/>
+              <line x1="40" y1="240" x2="360" y2="240"/>
+              <line x1="40" y1="200" x2="360" y2="200"/>
+              <line x1="40" y1="160" x2="360" y2="160"/>
+              <line x1="40" y1="120" x2="360" y2="120"/>
+              <line x1="40" y1="80" x2="360" y2="80"/>
+              <line x1="40" y1="40" x2="360" y2="40"/>
+            </g>
+            
+            <!-- Axes -->
+            <g class="graph-axes">
+              <!-- X-axis -->
+              <line x1="40" y1="360" x2="360" y2="360" stroke-width="2"/>
+              <!-- Y-axis -->
+              <line x1="40" y1="360" x2="40" y2="40" stroke-width="2"/>
+              <!-- Arrow heads -->
+              <polygon points="360,360 350,355 350,365" fill="var(--fg-muted)"/>
+              <polygon points="40,40 35,50 45,50" fill="var(--fg-muted)"/>
+            </g>
+            
+            <!-- Axis labels -->
+            <g class="axis-label">
+              <!-- X labels -->
+              <text x="80" y="375" text-anchor="middle">1</text>
+              <text x="120" y="375" text-anchor="middle">2</text>
+              <text x="160" y="375" text-anchor="middle">3</text>
+              <text x="200" y="375" text-anchor="middle">4</text>
+              <text x="240" y="375" text-anchor="middle">5</text>
+              <text x="280" y="375" text-anchor="middle">6</text>
+              <text x="320" y="375" text-anchor="middle">7</text>
+              <text x="360" y="375" text-anchor="middle">8</text>
+              <text x="380" y="365" text-anchor="middle">x</text>
+              <!-- Y labels -->
+              <text x="25" y="325" text-anchor="end">1</text>
+              <text x="25" y="285" text-anchor="end">2</text>
+              <text x="25" y="245" text-anchor="end">3</text>
+              <text x="25" y="205" text-anchor="end">4</text>
+              <text x="25" y="165" text-anchor="end">5</text>
+              <text x="25" y="125" text-anchor="end">6</text>
+              <text x="25" y="85" text-anchor="end">7</text>
+              <text x="25" y="45" text-anchor="end">8</text>
+              <text x="25" y="25" text-anchor="end">y</text>
+            </g>
+            
+            <!-- Line 1: x + y = 6 → y = 6 - x -->
+            <!-- Points: (0,6) to (6,0) in coord space -->
+            <!-- SVG: (40, 40) to (280, 280) wait... -->
+            <!-- x=0,y=6 → SVG: x=40, y=360-6*40=120 -->
+            <!-- x=6,y=0 → SVG: x=40+6*40=280, y=360 -->
+            <line class="graph-line line-1 draw-line delay-1" 
+                  x1="40" y1="120" x2="280" y2="360" id="line1"/>
+            <text class="line-label line-label-1" x="300" y="100">
+              y = 6 − x
+            </text>
+            
+            <!-- Line 2: 2x + y = 10 → y = 10 - 2x -->
+            <!-- x=0,y=10 → SVG: x=40, y=360-10*40=-40 (outside) -->
+            <!-- x=5,y=0 → SVG: x=40+5*40=240, y=360 -->
+            <!-- x=0,y=8 → SVG: x=40, y=360-8*40=40 (top) -->
+            <line class="graph-line line-2 draw-line delay-2" 
+                  x1="40" y1="40" x2="240" y2="360" id="line2"/>
+            <text class="line-label line-label-2" x="260" y="30">
+              y = 10 − 2x
+            </text>
+            
+            <!-- Area fill: polygon (0,0), (0,6), (4,2), (5,0) -->
+            <!-- (0,0) → (40, 360) -->
+            <!-- (0,6) → (40, 120) -->
+            <!-- (4,2) → (40+160=200, 360-80=280) -->
+            <!-- (5,0) → (240, 360) -->
+            <polygon class="area-fill draw-area" 
+                     points="40,360 40,120 200,280 240,360" id="areaFill"/>
+            
+            <!-- Point markers -->
+            <g class="draw-points delay-3">
+              <!-- Origin (0,0) -->
+              <circle class="point-marker" cx="40" cy="360" r="5"/>
+              <text class="axis-label" x="30" y="380" text-anchor="end">(0,0)</text>
+              
+              <!-- (0,6) -->
+              <circle class="point-marker" cx="40" cy="120" r="5"/>
+              <text class="axis-label" x="30" y="110" text-anchor="end">(0,6)</text>
+              
+              <!-- (5,0) -->
+              <circle class="point-marker" cx="240" cy="360" r="5"/>
+              <text class="axis-label" x="250" y="380" text-anchor="middle">(5,0)</text>
+            </g>
+            
+            <!-- Intersection (4,2) -->
+            <circle class="intersection-marker draw-points delay-4" cx="200" cy="280" r="6"/>
+            <text class="axis-label" x="215" y="270" fill="var(--line2)" font-weight="700">(4,2)</text>
+          </svg>
+        </div>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: var(--line1);"></div>
+            <span>y = 6 − x</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: var(--line2);"></div>
+            <span>y = 10 − 2x</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-area"></div>
+            <span>Gebied (oppervlakte)</span>
+          </div>
+        </div>
+      </div>
+
       <button class="solution-trigger" onclick="toggleSolution(this)">Toon oplossing</button>
       <div class="solution-content">
         <div class="solution-step">
@@ -383,7 +653,8 @@ Bepaal de oppervlakte van dat gebied.
             Eerste kwadrant: <span class="math">x ≥ 0, y ≥ 0</span><br>
             Lijn 1: <span class="math">y = 6 − x</span> (snijpunten: (0,6) en (6,0))<br>
             Lijn 2: <span class="math">y = 10 − 2x</span> (snijpunten: (0,10) en (5,0))<br>
-            Oorsprong (0,0) is hoekpunt van het gebied.
+            Oorsprong (0,0) is hoekpunt van het gebied.<br>
+            <span class="highlight">Zie grafiek boven voor visualisatie.</span>
           </div>
         </div>
         <div class="solution-step">
@@ -408,6 +679,7 @@ Bepaal de oppervlakte van dat gebied.
         <div class="solution-step">
           <div class="step-label">Stap 4: Bereken oppervlakte (integralen)</div>
           <div class="step-text">
+            Het gebied splitst in twee delen bij x=4:<br>
             <span class="math">Oppervlakte = ∫₀⁴ (6−x) dx + ∫₄⁵ (10−2x) dx</span><br>
             <span class="math">= [6x − x²/2]₀⁴ + [10x − x²]₄⁵</span><br>
             <span class="math">= (24 − 8) + (50−25 − 40+16)</span><br>
@@ -478,6 +750,8 @@ Bepaal de oppervlakte van dat gebied.
           if (rect.top < viewportCenter && rect.bottom > viewportCenter) {
             cards.forEach(c => c.classList.remove('current'));
             entry.target.classList.add('current');
+            // Trigger graph animations when card becomes visible
+            triggerGraphAnimations();
           }
         }
       });
@@ -492,6 +766,28 @@ Bepaal de oppervlakte van dat gebied.
       const progress = scrollTop / docHeight;
       progressBar.style.transform = `scaleX(${progress})`;
     });
+
+    function triggerGraphAnimations() {
+      const lines = document.querySelectorAll('.draw-line');
+      const areas = document.querySelectorAll('.draw-area');
+      const points = document.querySelectorAll('.draw-points');
+      
+      lines.forEach((line, i) => {
+        line.style.animation = 'none';
+        line.offsetHeight; // trigger reflow
+        line.style.animation = '';
+      });
+      areas.forEach(area => {
+        area.style.animation = 'none';
+        area.offsetHeight;
+        area.style.animation = '';
+      });
+      points.forEach((point, i) => {
+        point.style.animation = 'none';
+        point.offsetHeight;
+        point.style.animation = '';
+      });
+    }
 
     function toggleSolution(btn) {
       const content = btn.nextElementSibling;
